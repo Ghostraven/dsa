@@ -4,6 +4,33 @@ using namespace std;
 
 int temp;
 
+template<typename T>
+class KeyStorage{
+	public:
+       int key;
+	   T member; 
+       KeyStorage(int theKey, T theMember);
+       ~KeyStorage();
+       T get();
+       T set(T arg);
+};
+template<typename T>
+KeyStorage<T>::KeyStorage(int theKey, T theMember){
+         //TODO
+}
+template<typename T>
+KeyStorage<T>::~KeyStorage(void){
+         //TODO
+}
+template<typename T>
+T KeyStorage<T>::get(){
+	return member;
+}
+template<typename T>
+T KeyStorage<T>::set(T arg){
+    this -> member = arg;
+}
+
 class Complex {
 private:
 double a;
@@ -86,5 +113,7 @@ int main() {
     divided.printNumber();
     cout << endl;
     multiplied.printNumber();
+    KeyStorage <int> theKeyStorage(2,5);
+    cout << theKeyStorage.get();
     return 0;
 }
