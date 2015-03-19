@@ -17,8 +17,13 @@ private:
     int topLevel, bottomLevel, size;
 public:
     Queue() {
-        this -> topLevel, bottomLevel, size = 0;
+        topLevel = 0;
+        bottomLevel = 0; 
+        size = 0;
     }
+    
+    ~Queue() {}
+    
     bool isEmpty() {
         if (size == 0) return true;
         return false;
@@ -35,8 +40,7 @@ public:
     T deque() {
         if (isEmpty()) {
             cout << "The queue is empty." << endl;
-            T x;
-            return x;
+            return NULL;
         }
         T x = queueArray[bottomLevel];
         bottomLevel = (bottomLevel + 1) % NMAX;
@@ -46,8 +50,7 @@ public:
     T peek() {
         if (isEmpty()) {
             cout << "The queue is empty." << endl;
-            T x;
-            return x;
+            return NULL;
         }
         T x = queueArray[bottomLevel];
         return x;
@@ -83,7 +86,7 @@ void decToBase(int number, int base) {
  */
 int main() {
     Queue<int> myQueue;
-    if (myQueue.isEmpty()) cout << "The queue is empty." << endl;
+    //if (myQueue.isEmpty()) cout << "The queue is empty." << endl;
     myQueue.enque(2);
     cout << myQueue.peek() << endl;
     myQueue.deque();
@@ -96,6 +99,6 @@ int main() {
     decToBinary(114);
     cout << endl;
     decToBase(114, 5);
+    cout << endl;
     return 0;
 }
-
