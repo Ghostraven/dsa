@@ -1,137 +1,62 @@
 #include <iostream>
-#define NMAX 10
-#define MAXSTR 40
+#include <string>
+#include "queue.h"
+
 using namespace std;
 
-template <typename T> class Queue {
+class Message {
 public:
-    T queueArray[NMAX];
-    int topLevel, bottomLevel, size;
-public:
-    Queue() {
-        topLevel = 0;
-        bottomLevel = 0; 
-        size = 0;
-    }
+    string message, sender, reciver, date;
     
-    ~Queue() {}
+    Message() {};
     
-    bool isEmpty() {
-        if (size == 0) return true;
-        return false;
-    }
-    void enque(T item) {
-        if (topLevel >= NMAX) {
-            cout << "The queue if full." << endl;
-            return;
-        }
-        queueArray[topLevel] = item;
-        topLevel = (topLevel + 1) % NMAX;
-        size++;
-    }
-    T deque() {
-        if (isEmpty()) {
-            cout << "The queue is empty." << endl;
-            return NULL;
-        }
-        T x = queueArray[bottomLevel];
-        bottomLevel = (bottomLevel + 1) % NMAX;
-        size--;
-        return x;
-    }
-    T peek() {
-        if (isEmpty()) {
-            cout << "The queue is empty." << endl;
-            return NULL;
-        }
-        T x = queueArray[bottomLevel];
-        return x;
+    void printMessage() {
+        cout << "Sender : " << sender << "." << endl;
+        cout << "Reciver: " << reciver << "." << endl;
+        cout << "Date: " << date << "." << endl;
+        cout << "Message: " << message << "." << endl;
     }
 };
+
+Queue<Message> messageQueue;
 
 class MessageSender {
-private:
-    string name[MAXSTR];
 public:
-    MessageSender(string &(theName[])) {
-        name = theName;
-    }
+    string name;
     
-    char showName() {
-        return name;
+    MessageSender() {};
+    
+    void sendMessage(Message &theMessage) {
+        messageQueue.enque(theMessage);
     }
 };
 
-class MessageRecipient {
-private:
-    string name[MAXSTR];
+class MessageReciver {
 public:
-    MessageRecipient(string %(theName[])) {
-        name = theName;
-    }
+    string name;
     
-    char showName() {
-        return name;
-    }
-};
-
-template <typename T> class Message {
-private:  
-    string message[MAXSTR];
-    MessageSender sender;
-    MessageRecipient recipient;
-public: 
-    Message(MessageSender theSender, MessageRecipient theRecipient, string &(theMessage[])) {
-        sender = theSender;
-        recipient = theRecipient;
-        message = theMessage;
-    }
+    MessageReciver() {};
     
-    ~Message() {};
-    
-    void showMessage() {
-        cout << "The sender: " << sender.showName() << "." << endl;
-        cout << "The recipient: " << recipient.showName() << "." << endl;
-        cout << "The message " << message << "." << endl;
-    }
-};
-
-
-
-class MessageSystem {
-private:
-    Queue<Message> messageQueue;
-    MessageSender sender;
-    MessageRecipient recipient;
-public:
-    MessageSystem(MessageSender theSender, MessageRecipient theRecipient) {
-        sender = theSender;
-        recipient = theRecipient;
-    }
-    
-    void sendMessage(string message[]) {
-        messageQueue.enque("message");
-    }
-    
-    void checkLastMessage() {
-        cout << messageQueue.peek() << endl;
+    void checkMessages() {
+        messageQueue.peek().printMessage();
     }
     
     void deleteLastMessage() {
         messageQueue.deque();
-        cout << "The message have been deleted." << endl;
     }
-}
+};
 
 int main() {
-    MessageSender mySender("Alex");
-    MessageRecipient myRecipient("Radu");
-    MessageSystem mySystem(mySender, myRecipient);
-    mySystem.sendMessage("Ce faci ba?");
-    mySystem.sendMessage("Raspunde!");
-    mySystem.checkLastMessage();
-    mySystem.deleteLastMessage();
-    mySystem.checkLastMessage();
-    
+    Message myMessage;
+    MessageSender mySender;
+    mySender.name = "Alex";
+    MessageReciver myReciver;
+    myReciver.name = "Radu";
+    myMessage.message = "What is up?";
+    myMessage.reciver = myReciver.name;
+    myMessage.sender = mySender.name;
+    myMessage.date = "27/3/2015";
+    mySender.sendMessage(myMessage);
+    myReciver.checkMessages();
     return 0;
 }
